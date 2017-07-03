@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,6 +41,7 @@ import java.util.List;
 
 class Schemas {
   static final Schema SCHEMA_REPRESENTED_COUNTRY;
+
   static {
     SCHEMA_REPRESENTED_COUNTRY = SchemaBuilder.struct()
         .optional()
@@ -67,6 +68,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_CONTINENT;
+
   static {
     SCHEMA_CONTINENT = SchemaBuilder.struct()
         .optional()
@@ -93,6 +95,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_LOCATION;
+
   static {
     SCHEMA_LOCATION = SchemaBuilder.struct()
         .optional()
@@ -125,6 +128,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_POSTAL;
+
   static {
     SCHEMA_POSTAL = SchemaBuilder.struct()
         .optional()
@@ -147,6 +151,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_CITY;
+
   static {
     SCHEMA_CITY = SchemaBuilder.struct()
         .optional()
@@ -173,6 +178,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_COUNTRY;
+
   static {
     SCHEMA_COUNTRY = SchemaBuilder.struct()
         .optional()
@@ -201,6 +207,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_SUBDIVISION;
+
   static {
     SCHEMA_SUBDIVISION = SchemaBuilder.struct()
         .optional()
@@ -229,6 +236,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_TRAITS;
+
   static {
     SCHEMA_TRAITS = SchemaBuilder.struct()
         .optional()
@@ -267,6 +275,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_COUNTRY_RESPONSE;
+
   static {
     SCHEMA_COUNTRY_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -295,6 +304,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_DOMAIN_RESPONSE;
+
   static {
     SCHEMA_DOMAIN_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -315,6 +325,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_CONNECTION_TYPE_RESPONSE;
+
   static {
     SCHEMA_CONNECTION_TYPE_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -335,6 +346,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_CITY_RESPONSE;
+
   static {
     SCHEMA_CITY_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -362,7 +374,7 @@ class Schemas {
     struct.put("location", location(cityResponse.getLocation()));
     struct.put("postal", postal(cityResponse.getPostal()));
     List<Struct> subdivisionsList = new ArrayList();
-    for(Subdivision s:cityResponse.getSubdivisions()) {
+    for (Subdivision s : cityResponse.getSubdivisions()) {
       Struct subdivisionStruct = subdivision(s);
       subdivisionsList.add(subdivisionStruct);
     }
@@ -376,6 +388,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_ASN_RESPONSE;
+
   static {
     SCHEMA_ASN_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -398,6 +411,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_INSIGHTS_RESPONSE;
+
   static {
     SCHEMA_INSIGHTS_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -425,7 +439,7 @@ class Schemas {
     struct.put("location", location(insightsResponse.getLocation()));
     struct.put("postal", postal(insightsResponse.getPostal()));
     List<Struct> subdivisionsList = new ArrayList();
-    for(Subdivision s:insightsResponse.getSubdivisions()) {
+    for (Subdivision s : insightsResponse.getSubdivisions()) {
       Struct subdivisionStruct = subdivision(s);
       subdivisionsList.add(subdivisionStruct);
     }
@@ -439,6 +453,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_ENTERPRISE_RESPONSE;
+
   static {
     SCHEMA_ENTERPRISE_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -466,7 +481,7 @@ class Schemas {
     struct.put("location", location(enterpriseResponse.getLocation()));
     struct.put("postal", postal(enterpriseResponse.getPostal()));
     List<Struct> subdivisionsList = new ArrayList();
-    for(Subdivision s:enterpriseResponse.getSubdivisions()) {
+    for (Subdivision s : enterpriseResponse.getSubdivisions()) {
       Struct subdivisionStruct = subdivision(s);
       subdivisionsList.add(subdivisionStruct);
     }
@@ -480,6 +495,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_ANONYMOUS_IP_RESPONSE;
+
   static {
     SCHEMA_ANONYMOUS_IP_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -508,6 +524,7 @@ class Schemas {
   }
 
   static final Schema SCHEMA_ISP_RESPONSE;
+
   static {
     SCHEMA_ISP_RESPONSE = SchemaBuilder.struct()
         .optional()
@@ -547,6 +564,7 @@ class Schemas {
         .field("ispResponse", SCHEMA_ISP_RESPONSE)
         .build();
   }
+
   static Struct struct(AnonymousIpResponse anonymousIpResponse, AsnResponse asnResponse, CityResponse cityResponse, ConnectionTypeResponse connectionTypeResponse, CountryResponse countryResponse, DomainResponse domainResponse, EnterpriseResponse enterpriseResponse, InsightsResponse insightsResponse, IspResponse ispResponse) {
     return new Struct(SCHEMA_MAXMIND)
         .put("anonymousIpResponse", anonymousIpResponse(anonymousIpResponse))
@@ -560,7 +578,7 @@ class Schemas {
         .put("ispResponse", ispResponse(ispResponse));
   }
 
-  static final Schema[] SCHEMAS = new Schema[] {
+  static final Schema[] SCHEMAS = new Schema[]{
       SCHEMA_MAXMIND,
       SCHEMA_REPRESENTED_COUNTRY,
       SCHEMA_CONTINENT,
