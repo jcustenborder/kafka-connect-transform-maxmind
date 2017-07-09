@@ -46,8 +46,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Description("This transformation is used to lookup data from a MaxMind " +
-    "[database](http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads) and append the data to an existing struct.")
+@Description("This transformation is used to lookup data from a `MaxMind database <http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads>`_ " +
+    "and append the data to an existing struct.")
 public class MaxMindTransformation<R extends ConnectRecord<R>> implements Transformation<R> {
   private static final Logger log = LoggerFactory.getLogger(MaxMindTransformation.class);
   private MaxMindTransformationConfig config;

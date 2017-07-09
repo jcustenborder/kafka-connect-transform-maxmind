@@ -17,12 +17,11 @@ package com.github.jcustenborder.kafka.connect.transform.maxmind;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingInputStream;
-import com.google.common.io.ByteSource;
-import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.kafka.connect.connector.ConnectRecord;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
@@ -32,8 +31,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,43 +50,79 @@ import java.util.zip.GZIPInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MaxMindTransformationTest {
+  private static final Logger log = LoggerFactory.getLogger(MaxMindTransformationTest.class);
   MaxMindTransformation transformation;
+
+  static File dataDirectory = new File("data");
 
   static File geoLiteDataFile;
 
+
   @BeforeAll
   public static void beforeAll() throws IOException {
-    geoLiteDataFile = new File("data/GeoLite2-City.mmdb");
+    geoLiteDataFile = new File(dataDirectory, "GeoLite2-City.mmdb");
     if (geoLiteDataFile.isFile() && geoLiteDataFile.exists()) {
       return;
     }
 
+    if (!dataDirectory.exists()) {
+      dataDirectory.mkdirs();
+    }
+
+    log.info("Downloading md5 of the database.");
     URL md5Url = new URL("http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5");
     final String expectedHash;
-    try(InputStream inputStream = md5Url.openStream()) {
-      try(InputStreamReader reader = new InputStreamReader(inputStream, Charsets.UTF_8)){
+    try (InputStream inputStream = md5Url.openStream()) {
+      try (InputStreamReader reader = new InputStreamReader(inputStream, Charsets.UTF_8)) {
         expectedHash = CharStreams.toString(reader);
       }
     }
+    log.info("expectedHash = {}", expectedHash);
+
+    File downloadFile = new File(dataDirectory, expectedHash);
 
     final String actualHash;
     URL databaseUrl = new URL("http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz");
     try (InputStream webStream = databaseUrl.openStream()) {
-      try(HashingInputStream hashingInputStream = new HashingInputStream(Hashing.md5(), webStream)) {
-        try (GZIPInputStream gzipInputStream = new GZIPInputStream(hashingInputStream)) {
-          try (ReadableByteChannel inputChannel = Channels.newChannel(gzipInputStream)) {
-            try (FileOutputStream outputStream = new FileOutputStream(geoLiteDataFile)) {
-              try (FileChannel outputChannel = outputStream.getChannel()) {
-                outputChannel.transferFrom(inputChannel, 0L, Long.MAX_VALUE);
-              }
+      try (HashingInputStream hashingInputStream = new HashingInputStream(Hashing.md5(), webStream)) {
+        try (ReadableByteChannel inputChannel = Channels.newChannel(hashingInputStream)) {
+          try (FileOutputStream outputStream = new FileOutputStream(downloadFile)) {
+            try (FileChannel outputChannel = outputStream.getChannel()) {
+              outputChannel.transferFrom(inputChannel, 0L, Long.MAX_VALUE);
             }
           }
         }
         actualHash = hashingInputStream.hash().toString();
       }
     }
-
+    log.info("actualHash = {}", actualHash);
     assertEquals(expectedHash, actualHash, "hashes do not match.");
+
+    try (FileInputStream inputStream = new FileInputStream(downloadFile)) {
+      try (GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream)) {
+        try (TarArchiveInputStream tarArchiveInputStream = new TarArchiveInputStream(gzipInputStream)) {
+          try (ReadableByteChannel inputChannel = Channels.newChannel(tarArchiveInputStream)) {
+            TarArchiveEntry entry;
+
+            while (null != (entry = tarArchiveInputStream.getNextTarEntry())) {
+              log.info("getFile = {}", entry.getFile());
+              log.info("getName = {}", entry.getName());
+
+              if (entry.getName().endsWith("GeoLite2-City.mmdb") && entry.isFile()) {
+                try (FileOutputStream outputStream = new FileOutputStream(geoLiteDataFile)) {
+                  try (FileChannel outputChannel = outputStream.getChannel()) {
+
+                    outputChannel.transferFrom(inputChannel, 0, Long.MAX_VALUE);
+                  }
+                }
+              } else {
+                tarArchiveInputStream.skip(entry.getSize());
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   @BeforeEach

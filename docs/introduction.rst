@@ -2,27 +2,8 @@
 Maxmind Transform
 =================
 
-The Maxmind Transformation is used to lookup ip addresses against the MaxMind databases and augment exsting data with the
-geoip data for an ip address.
-
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Source Connectors:
-    :hidden:
-    :glob:
-
-    sources/*
-
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Sink Connectors:
-    :hidden:
-    :glob:
-
-    sinks/*
-
+The Maxmind Transformation is used to lookup ip addresses against the `MaxMind <https://www.maxmind.com/en/home>`_ databases
+and augment existing structs with the geoip data for an specified ip address.
 
 .. toctree::
     :maxdepth: 1
