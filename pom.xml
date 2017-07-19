@@ -60,7 +60,6 @@
     <properties>
         <jersey.version>1.19.1</jersey.version>
         <jetty.version>9.3.10.v20160621</jetty.version>
-        <jackson.version>2.6.3</jackson.version>
     </properties>
     <dependencies>
         <dependency>
