@@ -20,5 +20,5 @@ and augment existing structs with the geoip data for an specified ip address.
     :hidden:
 
     schemas
-
+    info
 
