@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 Jeremy Custenborder (jcustenborder@gmail.com)
+ * Copyright © 2016 Jeremy Custenborder (jcustenborder@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Introduction("This plugin provides transformations to lookup against a MaxMind GeoIP database.")
+@Title("Simulator")
+@PluginOwner("jcustenborder")
+@PluginName("kafka-connect-transform-maxmind")
 package com.github.jcustenborder.kafka.connect.transform.maxmind;
 
-import com.github.jcustenborder.kafka.connect.utils.BaseDocumentationTest;
-import org.apache.kafka.connect.data.Schema;
-
-import java.util.Arrays;
-import java.util.List;
-
-public class DocumentationTest extends BaseDocumentationTest {
-  @Override
-  protected List<Schema> schemas() {
-    return Arrays.asList(Schemas.SCHEMAS);
-  }
-}
+import com.github.jcustenborder.kafka.connect.utils.config.Introduction;
+import com.github.jcustenborder.kafka.connect.utils.config.PluginName;
+import com.github.jcustenborder.kafka.connect.utils.config.PluginOwner;
+import com.github.jcustenborder.kafka.connect.utils.config.Title;

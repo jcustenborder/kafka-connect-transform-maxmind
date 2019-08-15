@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.jcustenborder.kafka.connect</groupId>
         <artifactId>kafka-connect-parent</artifactId>
-        <version>1.0.0</version>
+        <version>2.1.1-cp1</version>
     </parent>
     <artifactId>kafka-connect-transform-maxmind</artifactId>
     <version>0.1.0-SNAPSHOT</version>
@@ -32,8 +33,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/jcustenborder/kafka-connect-transform-maxmind.git</connection>
-        <developerConnection>scm:git:git@github.com:jcustenborder/kafka-connect-transform-maxmind.git
+        <connection>scm:git:https://github.com/jcustenborder/kafka-connect-transform-maxmind.git
+        </connection>
+        <developerConnection>
+            scm:git:git@github.com:jcustenborder/kafka-connect-transform-maxmind.git
         </developerConnection>
         <url>https://github.com/jcustenborder/kafka-connect-transform-maxmind</url>
     </scm>
@@ -48,15 +51,9 @@
             <version>2.9.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.jcustenborder.kafka.connect</groupId>
-            <artifactId>connect-utils-testing-data</artifactId>
-            <version>[0.2.33,0.2.1000)</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.14</version>
+            <version>1.18</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -65,36 +62,23 @@
             <plugin>
                 <groupId>io.confluent</groupId>
                 <artifactId>kafka-connect-maven-plugin</artifactId>
-                <version>0.9.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>kafka-connect</goal>
-                        </goals>
-                        <configuration>
-                            <ownerUsername>jcustenborder</ownerUsername>
-                            <confluentControlCenterIntegration>true</confluentControlCenterIntegration>
-                            <documentationUrl>
-                                https://jcustenborder.github.io/kafka-connect-documentation/
-                            </documentationUrl>
-                            <ownerName>Jeremy Custenborder</ownerName>
-                            <dockerNamespace>jcustenborder</dockerNamespace>
-                            <dockerName>kafka-connect-docker</dockerName>
-                            <pluginTypes>
-                                <pluginType>transform</pluginType>
-                            </pluginTypes>
-                            <tags>
-                                <tag>Transformation</tag>
-                                <tag>Maxmind</tag>
-                                <tag>GeoIP</tag>
-                            </tags>
-                            <title>Maxmind Transformation</title>
-                            <supportUrl>${pom.issueManagement.url}</supportUrl>
-                            <supportSummary>Support provided through community involvement.
-                            </supportSummary>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <confluentControlCenterIntegration>true</confluentControlCenterIntegration>
+                    <documentationUrl>https://jcustenborder.github.io/kafka-connect-documentation/
+                    </documentationUrl>
+                    <tags>
+                        <tag>Transformation</tag>
+                        <tag>Maxmind</tag>
+                        <tag>GeoIP</tag>
+                    </tags>
+                    <componentTypes>
+                        <componentType>sink</componentType>
+                        <componentType>source</componentType>
+                    </componentTypes>
+                    <title>Kafka Connect Maxmind Transformation</title>
+                    <supportUrl>${pom.issueManagement.url}</supportUrl>
+                    <supportSummary>Support provided through community involvement.</supportSummary>
+                </configuration>
             </plugin>
         </plugins>
     </build>
