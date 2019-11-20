@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 @Introduction("This plugin provides transformations to lookup against a MaxMind GeoIP database.")
-@Title("Simulator")
+@Title("Maxmind Transformations")
 @PluginOwner("jcustenborder")
 @PluginName("kafka-connect-transform-maxmind")
 package com.github.jcustenborder.kafka.connect.transform.maxmind;
