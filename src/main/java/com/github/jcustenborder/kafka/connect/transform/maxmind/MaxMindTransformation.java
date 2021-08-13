@@ -72,7 +72,7 @@ public class MaxMindTransformation<R extends ConnectRecord<R>> implements Transf
         builder.name(inputSchema.name());
       }
       if (!Strings.isNullOrEmpty(inputSchema.doc())) {
-        builder.doc(inputSchema.name());
+        builder.doc(inputSchema.doc());
       }
       if (inputSchema.isOptional()) {
         builder.optional();
